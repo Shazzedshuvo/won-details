@@ -103,32 +103,36 @@ export default function SettingsPage() {
     setTimeout(() => setSavedSuccess(false), 2500);
   };
 
+  // Uploading states
+  const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
+  const [isUploadingFavicon, setIsUploadingFavicon] = useState(false);
+  const [isUploadingSignature, setIsUploadingSignature] = useState(false);
+
   // Profile Photo Upload (Cloudinary)
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Local instant preview fallback
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      const result = loadEvent.target?.result as string;
-      if (result) updatePhoto(result);
-    };
-    reader.readAsDataURL(file);
+    setIsUploadingPhoto(true);
 
-    // Upload to Cloudinary for permanent cross-device URL
     try {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const json = await res.json();
+      
       if (res.ok && json.success && json.url) {
         updatePhoto(json.url);
+        notifySuccess();
+      } else {
+        alert("Upload error: " + (json.error || "Failed to upload to Cloudinary"));
       }
-    } catch (err) {
-      console.warn("Cloudinary photo upload fallback:", err);
+    } catch (err: any) {
+      console.error("Cloudinary photo upload error:", err);
+      alert("Upload failed: " + err.message);
+    } finally {
+      setIsUploadingPhoto(false);
     }
-    notifySuccess();
   };
 
   // Favicon Upload (Cloudinary)
@@ -136,25 +140,26 @@ export default function SettingsPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      const result = loadEvent.target?.result as string;
-      if (result) updateFavicon(result);
-    };
-    reader.readAsDataURL(file);
+    setIsUploadingFavicon(true);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const json = await res.json();
+      
       if (res.ok && json.success && json.url) {
         updateFavicon(json.url);
+        notifySuccess();
+      } else {
+        alert("Upload error: " + (json.error || "Failed to upload to Cloudinary"));
       }
-    } catch (err) {
-      console.warn("Cloudinary favicon fallback:", err);
+    } catch (err: any) {
+      console.error("Cloudinary favicon error:", err);
+      alert("Upload failed: " + err.message);
+    } finally {
+      setIsUploadingFavicon(false);
     }
-    notifySuccess();
   };
 
   // Signature Upload (Cloudinary)
@@ -162,25 +167,26 @@ export default function SettingsPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (loadEvent) => {
-      const result = loadEvent.target?.result as string;
-      if (result) updateSignature(result);
-    };
-    reader.readAsDataURL(file);
+    setIsUploadingSignature(true);
 
     try {
       const formData = new FormData();
       formData.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: formData });
       const json = await res.json();
+      
       if (res.ok && json.success && json.url) {
         updateSignature(json.url);
+        notifySuccess();
+      } else {
+        alert("Upload error: " + (json.error || "Failed to upload to Cloudinary"));
       }
-    } catch (err) {
-      console.warn("Cloudinary signature fallback:", err);
+    } catch (err: any) {
+      console.error("Cloudinary signature error:", err);
+      alert("Upload failed: " + err.message);
+    } finally {
+      setIsUploadingSignature(false);
     }
-    notifySuccess();
   };
 
   // Save General Profile
@@ -436,11 +442,21 @@ export default function SettingsPage() {
                 />
                 <button
                   type="button"
+                  disabled={isUploadingPhoto}
                   onClick={() => photoInputRef.current?.click()}
-                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm"
+                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50"
                 >
-                  <Camera className="w-4 h-4 text-blue-500" />
-                  <span>Change Profile Photo</span>
+                  {isUploadingPhoto ? (
+                    <>
+                      <span className="w-3.5 h-3.5 rounded-full border-2 border-blue-500 border-t-transparent animate-spin" />
+                      <span>Uploading to Cloud...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Camera className="w-4 h-4 text-blue-500" />
+                      <span>Change Profile Photo</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -491,11 +507,21 @@ export default function SettingsPage() {
                 />
                 <button
                   type="button"
+                  disabled={isUploadingFavicon}
                   onClick={() => faviconInputRef.current?.click()}
-                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm"
+                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50"
                 >
-                  <Globe className="w-4 h-4 text-emerald-500" />
-                  <span>Change Favicon</span>
+                  {isUploadingFavicon ? (
+                    <>
+                      <span className="w-3.5 h-3.5 rounded-full border-2 border-emerald-500 border-t-transparent animate-spin" />
+                      <span>Uploading to Cloud...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Globe className="w-4 h-4 text-emerald-500" />
+                      <span>Change Favicon</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -526,11 +552,21 @@ export default function SettingsPage() {
                 />
                 <button
                   type="button"
+                  disabled={isUploadingSignature}
                   onClick={() => signatureInputRef.current?.click()}
-                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm"
+                  className="w-full py-2 px-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-700 text-xs font-semibold text-zinc-800 dark:text-zinc-200 flex items-center justify-center gap-2 transition-colors shadow-sm disabled:opacity-50"
                 >
-                  <FileSignature className="w-4 h-4 text-violet-500" />
-                  <span>Change Signature</span>
+                  {isUploadingSignature ? (
+                    <>
+                      <span className="w-3.5 h-3.5 rounded-full border-2 border-violet-500 border-t-transparent animate-spin" />
+                      <span>Uploading to Cloud...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FileSignature className="w-4 h-4 text-violet-500" />
+                      <span>Change Signature</span>
+                    </>
+                  )}
                 </button>
               </div>
             </div>
