@@ -67,6 +67,8 @@ export default function VaultPage() {
   const [recFields, setRecFields] = useState<RecordField[]>([
     { label: "", value: "" }
   ]);
+  const [rawVaultFile, setRawVaultFile] = useState<File | null>(null);
+  const [isVaultUploading, setIsVaultUploading] = useState(false);
   const [recFile, setRecFile] = useState<{
     name: string;
     size: string;
@@ -101,6 +103,7 @@ export default function VaultPage() {
     setRecNote("");
     setRecFields([{ label: "", value: "" }]);
     setRecFile(null);
+    setRawVaultFile(null);
     setIsRecordModalOpen(true);
   };
 
@@ -124,6 +127,7 @@ export default function VaultPage() {
     } else {
       setRecFile(null);
     }
+    setRawVaultFile(null);
     setIsRecordModalOpen(true);
   };
 
@@ -146,6 +150,8 @@ export default function VaultPage() {
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    setRawVaultFile(file);
 
     const isPdf = file.type.includes("pdf") || file.name.endsWith(".pdf");
     const isImg = file.type.startsWith("image/");
@@ -181,7 +187,7 @@ export default function VaultPage() {
   };
 
   // Submit Record
-  const handleSaveRecord = (e: React.FormEvent) => {
+  const handleSaveRecord = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!recTitle.trim() || !recCategoryId) return;
 
@@ -189,13 +195,32 @@ export default function VaultPage() {
       (f) => f.label.trim() !== "" || f.value.trim() !== ""
     );
 
+    let finalFileUrl = recFile?.url;
+
+    if (rawVaultFile) {
+      setIsVaultUploading(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", rawVaultFile);
+        const res = await fetch("/api/upload", { method: "POST", body: formData });
+        const json = await res.json();
+        if (res.ok && json.success && json.url) {
+          finalFileUrl = json.url;
+        }
+      } catch (err) {
+        console.warn("Vault Cloudinary fallback:", err);
+      } finally {
+        setIsVaultUploading(false);
+      }
+    }
+
     if (editingRecord) {
       updateRecord(editingRecord.id, {
         categoryId: recCategoryId,
         title: recTitle.trim(),
         note: recNote.trim(),
         fields: cleanFields,
-        fileUrl: recFile?.url,
+        fileUrl: finalFileUrl,
         fileName: recFile?.name,
         fileType: recFile?.type,
         fileSize: recFile?.size
@@ -206,7 +231,7 @@ export default function VaultPage() {
         title: recTitle.trim(),
         note: recNote.trim(),
         fields: cleanFields,
-        fileUrl: recFile?.url,
+        fileUrl: finalFileUrl,
         fileName: recFile?.name,
         fileType: recFile?.type,
         fileSize: recFile?.size
@@ -214,6 +239,7 @@ export default function VaultPage() {
     }
 
     setIsRecordModalOpen(false);
+    setRawVaultFile(null);
   };
 
   // Filtered list

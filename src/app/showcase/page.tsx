@@ -30,8 +30,10 @@ export default function ShowcasePage() {
   
   // Drag and drop states
   const [isDragging, setIsDragging] = useState(false);
+  const [isUploadingCloud, setIsUploadingCloud] = useState(false);
   const [uploadTitle, setUploadTitle] = useState("");
   const [uploadCategory, setUploadCategory] = useState<"certificate" | "project" | "document" | "govt">("certificate");
+  const [rawFile, setRawFile] = useState<File | null>(null);
   const [pendingFile, setPendingFile] = useState<{
     name: string;
     size: string;
@@ -47,6 +49,7 @@ export default function ShowcasePage() {
   const handleFiles = (fileList: FileList | null) => {
     if (!fileList || fileList.length === 0) return;
     const file = fileList[0];
+    setRawFile(file);
     
     const isPdf = file.type.includes("pdf") || file.name.endsWith(".pdf");
     const isImg = file.type.startsWith("image/");
@@ -88,15 +91,42 @@ export default function ShowcasePage() {
     handleFiles(e.dataTransfer.files);
   };
 
-  const handleSaveUpload = (e: React.FormEvent) => {
+  const handleSaveUpload = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!pendingFile) return;
+
+    let finalUrl = pendingFile.url;
+
+    // Upload to Cloudinary via /api/upload if rawFile is available
+    if (rawFile) {
+      setIsUploadingCloud(true);
+      try {
+        const formData = new FormData();
+        formData.append("file", rawFile);
+
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success && json.url) {
+          finalUrl = json.url;
+        } else {
+          console.warn("Cloudinary upload fallback:", json.error);
+        }
+      } catch (err) {
+        console.error("Cloudinary upload failed, falling back to local:", err);
+      } finally {
+        setIsUploadingCloud(false);
+      }
+    }
 
     addItem({
       title: uploadTitle.trim() || pendingFile.name,
       category: uploadCategory,
       fileType: pendingFile.type,
-      fileUrl: pendingFile.url,
+      fileUrl: finalUrl,
       fileName: pendingFile.name,
       fileSize: pendingFile.size,
       description: `Uploaded on ${new Date().toLocaleDateString()}`,
@@ -104,6 +134,7 @@ export default function ShowcasePage() {
     });
 
     setPendingFile(null);
+    setRawFile(null);
     setUploadTitle("");
   };
 
@@ -275,10 +306,20 @@ export default function ShowcasePage() {
               </button>
               <button
                 type="submit"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold rounded-lg bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 shadow-sm"
+                disabled={isUploadingCloud}
+                className="inline-flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold rounded-lg bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-100 text-white dark:text-zinc-900 shadow-sm disabled:opacity-50"
               >
-                <Check className="w-3.5 h-3.5" />
-                <span>Save File</span>
+                {isUploadingCloud ? (
+                  <>
+                    <span className="w-3 h-3 rounded-full border-2 border-white dark:border-zinc-900 border-t-transparent animate-spin" />
+                    <span>Uploading to Cloud...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Save File</span>
+                  </>
+                )}
               </button>
             </div>
           </form>

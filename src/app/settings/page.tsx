@@ -103,49 +103,84 @@ export default function SettingsPage() {
     setTimeout(() => setSavedSuccess(false), 2500);
   };
 
-  // Profile Photo Upload
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Profile Photo Upload (Cloudinary)
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
+    // Local instant preview fallback
     const reader = new FileReader();
     reader.onload = (loadEvent) => {
       const result = loadEvent.target?.result as string;
-      if (result) {
-        updatePhoto(result);
-        notifySuccess();
-      }
+      if (result) updatePhoto(result);
     };
     reader.readAsDataURL(file);
+
+    // Upload to Cloudinary for permanent cross-device URL
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (res.ok && json.success && json.url) {
+        updatePhoto(json.url);
+      }
+    } catch (err) {
+      console.warn("Cloudinary photo upload fallback:", err);
+    }
+    notifySuccess();
   };
 
-  // Favicon Upload
-  const handleFaviconUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Favicon Upload (Cloudinary)
+  const handleFaviconUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (loadEvent) => {
       const result = loadEvent.target?.result as string;
-      if (result) {
-        updateFavicon(result);
-        notifySuccess();
-      }
+      if (result) updateFavicon(result);
     };
     reader.readAsDataURL(file);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (res.ok && json.success && json.url) {
+        updateFavicon(json.url);
+      }
+    } catch (err) {
+      console.warn("Cloudinary favicon fallback:", err);
+    }
+    notifySuccess();
   };
 
-  // Signature Upload
-  const handleSignatureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Signature Upload (Cloudinary)
+  const handleSignatureUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     const reader = new FileReader();
     reader.onload = (loadEvent) => {
       const result = loadEvent.target?.result as string;
-      if (result) {
-        updateSignature(result);
-        notifySuccess();
-      }
+      if (result) updateSignature(result);
     };
     reader.readAsDataURL(file);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const json = await res.json();
+      if (res.ok && json.success && json.url) {
+        updateSignature(json.url);
+      }
+    } catch (err) {
+      console.warn("Cloudinary signature fallback:", err);
+    }
+    notifySuccess();
   };
 
   // Save General Profile
