@@ -131,13 +131,24 @@ export function ShowcaseProvider({ children }: { children: React.ReactNode }) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setItems(parsed);
-          return;
         }
+      } else {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultShowcaseItems));
       }
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultShowcaseItems));
     } catch (e) {
       console.error("Failed to load showcase items from localStorage:", e);
     }
+
+    // Sync from server so items are visible across all browsers
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData && Array.isArray(serverData.showcaseItems) && serverData.showcaseItems.length > 0) {
+          setItems(serverData.showcaseItems);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(serverData.showcaseItems));
+        }
+      })
+      .catch((err) => console.warn("Backend showcase sync notice:", err));
   }, []);
 
   const saveToStorage = (newItems: ShowcaseItem[]) => {
@@ -147,6 +158,12 @@ export function ShowcaseProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to save showcase items:", e);
     }
+
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ showcaseItems: newItems })
+    }).catch((err) => console.warn("Backend showcase sync notice:", err));
   };
 
   const addItem = (item: Omit<ShowcaseItem, "id" | "uploadDate">) => {

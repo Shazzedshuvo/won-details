@@ -49,6 +49,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Auth init error:", e);
     }
+    // Fetch synced credentials from server
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData && serverData.authCredentials) {
+          setCredentials(serverData.authCredentials);
+          localStorage.setItem(CREDENTIALS_KEY, JSON.stringify(serverData.authCredentials));
+        }
+      })
+      .catch((err) => console.warn("Backend auth sync notice:", err));
+
     setIsReady(true);
   }, []);
 
@@ -92,6 +103,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error(e);
     }
+
+    // Sync to backend
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ authCredentials: updated })
+    }).catch((err) => console.warn("Backend auth update sync notice:", err));
   };
 
   return (

@@ -172,6 +172,21 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to load vault items from localStorage:", e);
     }
+
+    // Sync from server so changes appear across all browsers
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData && Array.isArray(serverData.vaultCategories) && serverData.vaultCategories.length > 0) {
+          setCategories(serverData.vaultCategories);
+          localStorage.setItem(STORAGE_CAT_KEY, JSON.stringify(serverData.vaultCategories));
+        }
+        if (serverData && Array.isArray(serverData.vaultRecords) && serverData.vaultRecords.length > 0) {
+          setRecords(serverData.vaultRecords);
+          localStorage.setItem(STORAGE_REC_KEY, JSON.stringify(serverData.vaultRecords));
+        }
+      })
+      .catch((err) => console.warn("Backend vault sync notice:", err));
   }, []);
 
   const saveCategories = (newCats: VaultCategory[]) => {
@@ -181,6 +196,12 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to save categories:", e);
     }
+
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vaultCategories: newCats })
+    }).catch((err) => console.warn("Backend vault category sync notice:", err));
   };
 
   const saveRecords = (newRecs: VaultRecord[]) => {
@@ -190,6 +211,12 @@ export function VaultProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to save records:", e);
     }
+
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ vaultRecords: newRecs })
+    }).catch((err) => console.warn("Backend vault record sync notice:", err));
   };
 
   const addCategory = (name: string, description?: string, color?: string): string => {

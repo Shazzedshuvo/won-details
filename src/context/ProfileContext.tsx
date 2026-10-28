@@ -27,7 +27,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState<PersonalData>(defaultPersonalData);
   const [faviconUrl, setFaviconUrl] = useState<string>(DEFAULT_FAVICON);
 
-  // Initialize from localStorage
+  // Initialize from localStorage and sync with server
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_PROFILE_KEY);
@@ -60,6 +60,38 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to load profile from localStorage:", e);
     }
+
+    // Fetch from backend server to sync across different browsers
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData && serverData.profile) {
+          setData((prev) => ({
+            ...defaultPersonalData,
+            ...prev,
+            ...serverData.profile,
+            govtDetails: {
+              ...defaultPersonalData.govtDetails,
+              ...(serverData.profile.govtDetails || {})
+            },
+            skills: {
+              ...defaultPersonalData.skills,
+              ...(serverData.profile.skills || {})
+            },
+            education: Array.isArray(serverData.profile.education)
+              ? serverData.profile.education
+              : prev.education
+          }));
+          localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(serverData.profile));
+        }
+
+        if (serverData && serverData.faviconUrl) {
+          setFaviconUrl(serverData.faviconUrl);
+          applyFavicon(serverData.faviconUrl);
+          localStorage.setItem(STORAGE_FAVICON_KEY, serverData.faviconUrl);
+        }
+      })
+      .catch((err) => console.warn("Backend profile sync notice:", err));
   }, []);
 
   const applyFavicon = (url: string) => {
@@ -78,8 +110,15 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     try {
       localStorage.setItem(STORAGE_PROFILE_KEY, JSON.stringify(newData));
     } catch (e) {
-      console.error("Failed to persist profile:", e);
+      console.error("Failed to persist profile to localStorage:", e);
     }
+
+    // Sync to backend server
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profile: newData })
+    }).catch((err) => console.warn("Backend sync notice:", err));
   };
 
   const updatePersonalData = (updated: Partial<PersonalData>) => {
@@ -116,6 +155,13 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
     } catch (e) {
       console.error("Failed to persist favicon:", e);
     }
+
+    // Sync favicon to server
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ faviconUrl: newFaviconUrl })
+    }).catch((err) => console.warn("Backend favicon sync notice:", err));
   };
 
   const addEducation = (item: EducationItem) => {
@@ -136,8 +182,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
 
   const resetToDefaults = () => {
     persistData(defaultPersonalData);
-    setFaviconUrl(DEFAULT_FAVICON);
-    applyFavicon(DEFAULT_FAVICON);
+    updateFavicon(DEFAULT_FAVICON);
     try {
       localStorage.removeItem(STORAGE_PROFILE_KEY);
       localStorage.removeItem(STORAGE_FAVICON_KEY);

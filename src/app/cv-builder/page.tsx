@@ -60,7 +60,7 @@ export default function CVBuilderPage() {
 
   const cvPrintRef = useRef<HTMLDivElement>(null);
 
-  // Load custom saved data or sync with profileData
+  // Load custom saved data or sync with profileData and server
   useEffect(() => {
     try {
       const saved = localStorage.getItem(CV_STORAGE_KEY);
@@ -72,6 +72,17 @@ export default function CVBuilderPage() {
     } catch (e) {
       console.error(e);
     }
+
+    // Server sync
+    fetch("/api/data")
+      .then((res) => res.json())
+      .then((serverData) => {
+        if (serverData && serverData.cvData) {
+          setCvData(serverData.cvData);
+          localStorage.setItem(CV_STORAGE_KEY, JSON.stringify(serverData.cvData));
+        }
+      })
+      .catch((err) => console.warn("Backend cv sync notice:", err));
   }, [profileData]);
 
   const handleSaveData = () => {
@@ -83,12 +94,28 @@ export default function CVBuilderPage() {
     } catch (e) {
       console.error(e);
     }
+
+    fetch("/api/data", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cvData })
+    }).catch((err) => console.warn("Backend cv sync notice:", err));
   };
 
   const handleResetData = () => {
     if (confirm("আপনি কি সিভি পুনরায় পূর্বের ডিফল্ট তথ্যে ফিরিয়ে আনতে চান?")) {
-      setCvData(profileData || personalData);
-      localStorage.removeItem(CV_STORAGE_KEY);
+      const resetData = profileData || personalData;
+      setCvData(resetData);
+      try {
+        localStorage.removeItem(CV_STORAGE_KEY);
+      } catch (e) {
+        console.error(e);
+      }
+      fetch("/api/data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cvData: resetData })
+      }).catch((err) => console.warn("Backend cv sync notice:", err));
       setSavedSuccess(true);
       setTimeout(() => setSavedSuccess(false), 1500);
     }
