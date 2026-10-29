@@ -27,6 +27,7 @@ interface ExpenseContextType {
   toggleMonthlyPlanComplete: (id: string) => void;
   updateBudgetConfig: (updated: Partial<BudgetConfig>) => void;
   resetToDefaults: () => void;
+  clearAllData: () => void;
   isReady: boolean;
 }
 
@@ -51,50 +52,42 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
       if (storedExp) {
         const parsed = JSON.parse(storedExp);
         if (Array.isArray(parsed)) setExpenses(parsed);
-      } else {
-        localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify(defaultExpenses));
       }
 
       const storedInc = localStorage.getItem(STORAGE_INCOMES_KEY);
       if (storedInc) {
         const parsed = JSON.parse(storedInc);
         if (Array.isArray(parsed)) setIncomes(parsed);
-      } else {
-        localStorage.setItem(STORAGE_INCOMES_KEY, JSON.stringify(defaultIncomes));
       }
 
       const storedPlans = localStorage.getItem(STORAGE_PLANS_KEY);
       if (storedPlans) {
         const parsed = JSON.parse(storedPlans);
         if (Array.isArray(parsed)) setMonthlyPlans(parsed);
-      } else {
-        localStorage.setItem(STORAGE_PLANS_KEY, JSON.stringify(defaultMonthlyPlans));
       }
 
       const storedCfg = localStorage.getItem(STORAGE_BUDGET_KEY);
       if (storedCfg) {
         setBudgetConfig(JSON.parse(storedCfg));
-      } else {
-        localStorage.setItem(STORAGE_BUDGET_KEY, JSON.stringify(DEFAULT_BUDGET_CONFIG));
       }
     } catch (e) {
       console.error("Failed to load expenses from localStorage:", e);
     }
 
-    // Backend sync
+    // Backend MongoDB sync
     fetch("/api/data")
       .then((res) => res.json())
       .then((serverData) => {
         if (serverData) {
-          if (Array.isArray(serverData.expenses) && serverData.expenses.length > 0) {
+          if (Array.isArray(serverData.expenses)) {
             setExpenses(serverData.expenses);
             localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify(serverData.expenses));
           }
-          if (Array.isArray(serverData.incomes) && serverData.incomes.length > 0) {
+          if (Array.isArray(serverData.incomes)) {
             setIncomes(serverData.incomes);
             localStorage.setItem(STORAGE_INCOMES_KEY, JSON.stringify(serverData.incomes));
           }
-          if (Array.isArray(serverData.monthlyPlans) && serverData.monthlyPlans.length > 0) {
+          if (Array.isArray(serverData.monthlyPlans)) {
             setMonthlyPlans(serverData.monthlyPlans);
             localStorage.setItem(STORAGE_PLANS_KEY, JSON.stringify(serverData.monthlyPlans));
           }
@@ -265,25 +258,26 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
     syncToServer({ budgetConfig: newCfg });
   };
 
-  const resetToDefaults = () => {
-    setExpenses(defaultExpenses);
-    setIncomes(defaultIncomes);
-    setMonthlyPlans(defaultMonthlyPlans);
-    setBudgetConfig(DEFAULT_BUDGET_CONFIG);
+  const clearAllData = () => {
+    setExpenses([]);
+    setIncomes([]);
+    setMonthlyPlans([]);
     try {
-      localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify(defaultExpenses));
-      localStorage.setItem(STORAGE_INCOMES_KEY, JSON.stringify(defaultIncomes));
-      localStorage.setItem(STORAGE_PLANS_KEY, JSON.stringify(defaultMonthlyPlans));
-      localStorage.setItem(STORAGE_BUDGET_KEY, JSON.stringify(DEFAULT_BUDGET_CONFIG));
+      localStorage.setItem(STORAGE_EXPENSES_KEY, JSON.stringify([]));
+      localStorage.setItem(STORAGE_INCOMES_KEY, JSON.stringify([]));
+      localStorage.setItem(STORAGE_PLANS_KEY, JSON.stringify([]));
     } catch (e) {
       console.error(e);
     }
     syncToServer({
-      expenses: defaultExpenses,
-      incomes: defaultIncomes,
-      monthlyPlans: defaultMonthlyPlans,
-      budgetConfig: DEFAULT_BUDGET_CONFIG
+      expenses: [],
+      incomes: [],
+      monthlyPlans: []
     });
+  };
+
+  const resetToDefaults = () => {
+    clearAllData();
   };
 
   return (
@@ -305,6 +299,7 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
         toggleMonthlyPlanComplete,
         updateBudgetConfig,
         resetToDefaults,
+        clearAllData,
         isReady
       }}
     >

@@ -239,8 +239,8 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
 ];
 
 export const DEFAULT_BUDGET_CONFIG: BudgetConfig = {
-  initialCapital: 10000, // মূল টাকা / শুরু ব্যালেন্স
-  monthlyBudget: 15000,  // মাসিক বাজেট
-  dailyBudget: 500,      // দৈনিক খরচের বাজেট
+  initialCapital: 0, // মূল টাকা / শুরু ব্যালেন্স
+  monthlyBudget: 0,  // মাসিক বাজেট
+  dailyBudget: 0,    // দৈনিক খরচের বাজেট
   currencySymbol: "৳"
 };

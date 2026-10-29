@@ -30,7 +30,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="antialiased selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 min-h-screen">
+      <body
+        suppressHydrationWarning
+        className="antialiased selection:bg-zinc-900 selection:text-white dark:selection:bg-white dark:selection:text-zinc-900 min-h-screen"
+      >
         <ThemeProvider>
           <AuthProvider>
             <ProfileProvider>

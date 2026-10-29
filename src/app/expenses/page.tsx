@@ -77,6 +77,7 @@ export default function ExpensesPage() {
     toggleMonthlyPlanComplete,
     updateBudgetConfig,
     resetToDefaults,
+    clearAllData,
     isReady
   } = useExpense();
 
@@ -669,6 +670,20 @@ export default function ExpensesPage() {
           >
             <Sliders className="w-4 h-4 text-zinc-500" />
             <span>মূল টাকা ও বাজেট</span>
+          </button>
+
+          <button
+            onClick={() => {
+              if (window.confirm("আপনি কি নিশ্চিত যে সকল খরচ ও আয়ের হিসাব 000 করে রিসেট করতে চান?")) {
+                clearAllData();
+                showSuccess("সকল হিসাব সফলভাবে 000 করে রিসেট করা হয়েছে!");
+              }
+            }}
+            className="inline-flex items-center gap-2 px-3.5 py-2.5 sm:py-3 rounded-xl text-sm font-bold border border-rose-300 dark:border-rose-900/60 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-rose-600 dark:text-rose-400 transition-all shadow-xs"
+            title="সব ডেটা 000 রিসেট করুন"
+          >
+            <RotateCcw className="w-4 h-4" />
+            <span>সব রিসেট (000)</span>
           </button>
 
           <button

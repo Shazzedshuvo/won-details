@@ -1,5 +1,21 @@
 {
+  "expenses": [],
   "showcaseItems": [
+    {
+      "title": "image 11",
+      "category": "certificate",
+      "fileType": "image",
+      "fileUrl": "https://res.cloudinary.com/kjosxqb7/image/upload/v1793263431/shuvo-dashboard/na3rrueglo7ejsfcopes.png",
+      "fileName": "image 11.png",
+      "fileSize": "2.60 MB",
+      "description": "Uploaded on 10/29/2026",
+      "tags": [
+        "CERTIFICATE",
+        "IMAGE"
+      ],
+      "id": "item-1793263432839-so42",
+      "uploadDate": "Oct 29, 2026"
+    },
     {
       "title": "yaygo number 1",
       "category": "govt",
@@ -13,21 +29,6 @@
         "IMAGE"
       ],
       "id": "item-1793184327551-pjqj",
-      "uploadDate": "Oct 28, 2026"
-    },
-    {
-      "title": "nature suffocated by co2 pollution",
-      "category": "project",
-      "fileType": "image",
-      "fileUrl": "https://res.cloudinary.com/kjosxqb7/image/upload/v1793183498/shuvo-dashboard/hsjh5zdgplmgjzoblett.jpg",
-      "fileName": "nature-suffocated-by-co2-pollution.jpg",
-      "fileSize": "5.77 MB",
-      "description": "Uploaded on 10/28/2026",
-      "tags": [
-        "PROJECT",
-        "IMAGE"
-      ],
-      "id": "item-1793183498094-oneh",
       "uploadDate": "Oct 28, 2026"
     },
     {
@@ -158,116 +159,13 @@
       ]
     }
   ],
-  "updatedAt": "2026-10-28T10:45:27.585Z",
-  "expenses": [
-    {
-      "title": "চা ও বিস্কুট",
-      "amount": 30,
-      "category": "tea_snacks",
-      "date": "2026-10-28",
-      "paymentMethod": "Cash",
-      "note": "চা ও বিস্কুট",
-      "id": "exp-1793184036759-efdh",
-      "createdAt": "2026-10-28T10:40:36.759Z"
-    },
-    {
-      "id": "exp-1",
-      "title": "সকালের চা ও বিস্কুট",
-      "amount": 25,
-      "date": "2026-10-28",
-      "time": "08:30",
-      "category": "tea_snacks",
-      "paymentMethod": "Cash",
-      "note": "মোড়ের টং দোকানে নাস্তা",
-      "createdAt": "2026-10-28T10:36:43.324Z"
-    },
-    {
-      "id": "exp-2",
-      "title": "বিড়ি / সিগারেট",
-      "amount": 30,
-      "date": "2026-10-28",
-      "time": "11:15",
-      "category": "smoking",
-      "paymentMethod": "Cash",
-      "note": "বেনসন ২টা",
-      "createdAt": "2026-10-28T10:36:43.324Z"
-    },
-    {
-      "id": "exp-3",
-      "title": "দুপুরের ভাত ও মাছ মিল",
-      "amount": 110,
-      "date": "2026-10-28",
-      "time": "14:00",
-      "category": "meals",
-      "paymentMethod": "Cash",
-      "note": "হোটেল আল-কাদেরিয়া",
-      "createdAt": "2026-10-28T10:36:43.324Z"
-    },
-    {
-      "id": "exp-4",
-      "title": "বাস ও রিকশা ভাড়া",
-      "amount": 50,
-      "date": "2026-10-28",
-      "time": "17:45",
-      "category": "transport",
-      "paymentMethod": "Cash",
-      "note": "মিরপুর ১০ থেকে ফার্মগেট",
-      "createdAt": "2026-10-28T10:36:43.324Z"
-    },
-    {
-      "id": "exp-5",
-      "title": "সন্ধ্যায় চা ও বন্ধুদের সাথে আড্ডা",
-      "amount": 60,
-      "date": "2026-10-27",
-      "time": "19:30",
-      "category": "tea_snacks",
-      "paymentMethod": "bKash",
-      "note": "রং চা ও পরোটা",
-      "createdAt": "2026-10-27T10:36:43.324Z"
-    },
-    {
-      "id": "exp-6",
-      "title": "বিড়ি ও পানের দোকান",
-      "amount": 40,
-      "date": "2026-10-27",
-      "time": "21:00",
-      "category": "smoking",
-      "paymentMethod": "Cash",
-      "note": "সিগারেট",
-      "createdAt": "2026-10-27T10:36:43.324Z"
-    },
-    {
-      "id": "exp-7",
-      "title": "রাতের ভাত ও তরকারি",
-      "amount": 90,
-      "date": "2026-10-27",
-      "time": "22:15",
-      "category": "meals",
-      "paymentMethod": "Cash",
-      "note": "রাতের মিল",
-      "createdAt": "2026-10-27T10:36:43.324Z"
-    },
-    {
-      "id": "exp-8",
-      "title": "কাঁচাবাজার সদাই (সবজি ও ডিম)",
-      "amount": 450,
-      "date": "2026-10-26",
-      "time": "10:00",
-      "category": "grocery",
-      "paymentMethod": "Nagad",
-      "note": "কাঁচাবাজার সদাই",
-      "createdAt": "2026-10-26T10:36:43.324Z"
-    },
-    {
-      "id": "exp-9",
-      "title": "মোবাইল রিচার্জ (গ্রামীনফোন)",
-      "amount": 198,
-      "date": "2026-10-25",
-      "time": "16:20",
-      "category": "recharge_net",
-      "paymentMethod": "bKash",
-      "note": "ডাটা প্যাক",
-      "createdAt": "2026-10-25T10:36:43.324Z"
-    }
-  ]
+  "updatedAt": "2026-10-29T08:52:13.026Z",
+  "incomes": [],
+  "monthlyPlans": [],
+  "budgetConfig": {
+    "initialCapital": 0,
+    "monthlyBudget": 0,
+    "dailyBudget": 0,
+    "currencySymbol": "৳"
+  }
 }
