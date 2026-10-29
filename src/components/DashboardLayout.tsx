@@ -32,6 +32,7 @@ export const DashboardLayout: React.FC<{ children: React.ReactNode }> = ({ child
     if (pathname === "/cv-builder") return "ATS-Friendly CV Builder";
     if (pathname === "/showcase") return "Official Documents & Project Showcase";
     if (pathname === "/vault") return "Custom Vault & Project Records";
+    if (pathname === "/expenses") return "দৈনন্দিন খরচ ও বাজেট ট্র্যাকার (Expense & Money Manager)";
     if (pathname === "/settings") return "Profile & Site Settings";
     return "Personal Dashboard & Civil Registry";
   };

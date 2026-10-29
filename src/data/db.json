@@ -1,0 +1,273 @@
+{
+  "showcaseItems": [
+    {
+      "title": "yaygo number 1",
+      "category": "govt",
+      "fileType": "image",
+      "fileUrl": "https://res.cloudinary.com/kjosxqb7/image/upload/v1793184327/shuvo-dashboard/odil60e3eft2ewo1ubtp.png",
+      "fileName": "yaygo-number-1.png",
+      "fileSize": "0.05 MB",
+      "description": "Uploaded on 10/28/2026",
+      "tags": [
+        "GOVT",
+        "IMAGE"
+      ],
+      "id": "item-1793184327551-pjqj",
+      "uploadDate": "Oct 28, 2026"
+    },
+    {
+      "title": "nature suffocated by co2 pollution",
+      "category": "project",
+      "fileType": "image",
+      "fileUrl": "https://res.cloudinary.com/kjosxqb7/image/upload/v1793183498/shuvo-dashboard/hsjh5zdgplmgjzoblett.jpg",
+      "fileName": "nature-suffocated-by-co2-pollution.jpg",
+      "fileSize": "5.77 MB",
+      "description": "Uploaded on 10/28/2026",
+      "tags": [
+        "PROJECT",
+        "IMAGE"
+      ],
+      "id": "item-1793183498094-oneh",
+      "uploadDate": "Oct 28, 2026"
+    },
+    {
+      "id": "showcase-photo",
+      "title": "Official Applicant Photo (300×300)",
+      "category": "govt",
+      "fileType": "image",
+      "fileUrl": "/uploads/applicant-photo.jpg",
+      "fileName": "applicant-photo.jpg",
+      "fileSize": "21.9 KB",
+      "dimensions": "300 × 300 px",
+      "uploadDate": "Oct 27, 2026",
+      "description": "Official 300x300 px photo formatted specifically for Bangladesh Government Job applications (Teletalk/BPSC standard, under 100 KB).",
+      "tags": [
+        "Govt Photo",
+        "300x300",
+        "Official",
+        "MD. SAZZAD HOSEN SHUVO"
+      ]
+    },
+    {
+      "id": "showcase-sig",
+      "title": "Official Applicant Signature (300×80)",
+      "category": "govt",
+      "fileType": "image",
+      "fileUrl": "/uploads/applicant-signature.jpg",
+      "fileName": "applicant-signature.jpg",
+      "fileSize": "5.08 KB",
+      "dimensions": "300 × 80 px",
+      "uploadDate": "Oct 27, 2026",
+      "description": "Official 300x80 px digital signature formatted for Bangladesh Government Job portal submission (under 60 KB).",
+      "tags": [
+        "Signature",
+        "300x80",
+        "Official",
+        "BPSC/Teletalk"
+      ]
+    },
+    {
+      "id": "showcase-cert-1",
+      "title": "Diploma in Computer Science & Technology Certificate",
+      "category": "certificate",
+      "fileType": "image",
+      "fileUrl": "/uploads/03db379c-63a8-4451-bb06-afe796dda382.png",
+      "fileName": "BTEB_Diploma_Engineering_Certificate.png",
+      "fileSize": "2.18 MB",
+      "dimensions": "1086 × 1448 px",
+      "uploadDate": "2024",
+      "description": "Bangladesh Technical Education Board (BTEB) Diploma-in-Engineering Official Certificate. Roll: 500412, GPA: 3.24.",
+      "tags": [
+        "BTEB",
+        "Diploma",
+        "Computer Science",
+        "Roll: 500412",
+        "GPA: 3.24"
+      ]
+    },
+    {
+      "id": "showcase-cert-2",
+      "title": "S.S.C Vocational Certificate in Computer & IT",
+      "category": "certificate",
+      "fileType": "image",
+      "fileUrl": "/uploads/628f2aa6-a658-43db-a7e2-b799f67b24ad.png",
+      "fileName": "SSC_Vocational_BTEB_Certificate.png",
+      "fileSize": "2.12 MB",
+      "dimensions": "1122 × 1402 px",
+      "uploadDate": "2020",
+      "description": "Bangladesh Technical Education Board (BTEB) SSC Vocational Official Certificate. Roll: 200840, GPA: 4.50.",
+      "tags": [
+        "SSC Vocational",
+        "BTEB",
+        "Roll: 200840",
+        "GPA: 4.50"
+      ]
+    },
+    {
+      "id": "showcase-doc-1",
+      "title": "Academic Grade Sheet & Verification Transcript",
+      "category": "document",
+      "fileType": "image",
+      "fileUrl": "/uploads/0490fcc5-d3f6-4e70-8b28-677ff51ff53d.png",
+      "fileName": "BTEB_Official_Academic_Transcript.png",
+      "fileSize": "2.06 MB",
+      "dimensions": "1086 × 1448 px",
+      "uploadDate": "2024",
+      "description": "Complete institutional semester grade sheet & verification transcript from Bangladesh Technical Education Board.",
+      "tags": [
+        "Grade Sheet",
+        "Transcript",
+        "BTEB",
+        "Academic Record"
+      ]
+    },
+    {
+      "id": "showcase-doc-2",
+      "title": "BTEB Board Registration & Verification Document",
+      "category": "document",
+      "fileType": "image",
+      "fileUrl": "/uploads/bb7748c0-b9da-4435-a94a-72008d8f718e.png",
+      "fileName": "BTEB_Board_Registration_Verification.png",
+      "fileSize": "2.05 MB",
+      "dimensions": "1122 × 1402 px",
+      "uploadDate": "Official",
+      "description": "Official institutional verification and board registration credential record.",
+      "tags": [
+        "Registration",
+        "BTEB",
+        "Official Record",
+        "Verification"
+      ]
+    },
+    {
+      "id": "showcase-doc-3",
+      "title": "Govt Job Application Summary Record",
+      "category": "govt",
+      "fileType": "image",
+      "fileUrl": "/uploads/Screenshot_22.png",
+      "fileName": "Govt_Job_Application_Summary.png",
+      "fileSize": "92.7 KB",
+      "dimensions": "557 × 269 px",
+      "uploadDate": "Oct 27, 2026",
+      "description": "Standard Bangladesh Government Job Application Record showing NID 9581214047, Tentulia, Panchagarh, and age calculation.",
+      "tags": [
+        "Govt Application",
+        "Teletalk",
+        "Summary",
+        "Verified Record"
+      ]
+    }
+  ],
+  "updatedAt": "2026-10-28T10:45:27.585Z",
+  "expenses": [
+    {
+      "title": "চা ও বিস্কুট",
+      "amount": 30,
+      "category": "tea_snacks",
+      "date": "2026-10-28",
+      "paymentMethod": "Cash",
+      "note": "চা ও বিস্কুট",
+      "id": "exp-1793184036759-efdh",
+      "createdAt": "2026-10-28T10:40:36.759Z"
+    },
+    {
+      "id": "exp-1",
+      "title": "সকালের চা ও বিস্কুট",
+      "amount": 25,
+      "date": "2026-10-28",
+      "time": "08:30",
+      "category": "tea_snacks",
+      "paymentMethod": "Cash",
+      "note": "মোড়ের টং দোকানে নাস্তা",
+      "createdAt": "2026-10-28T10:36:43.324Z"
+    },
+    {
+      "id": "exp-2",
+      "title": "বিড়ি / সিগারেট",
+      "amount": 30,
+      "date": "2026-10-28",
+      "time": "11:15",
+      "category": "smoking",
+      "paymentMethod": "Cash",
+      "note": "বেনসন ২টা",
+      "createdAt": "2026-10-28T10:36:43.324Z"
+    },
+    {
+      "id": "exp-3",
+      "title": "দুপুরের ভাত ও মাছ মিল",
+      "amount": 110,
+      "date": "2026-10-28",
+      "time": "14:00",
+      "category": "meals",
+      "paymentMethod": "Cash",
+      "note": "হোটেল আল-কাদেরিয়া",
+      "createdAt": "2026-10-28T10:36:43.324Z"
+    },
+    {
+      "id": "exp-4",
+      "title": "বাস ও রিকশা ভাড়া",
+      "amount": 50,
+      "date": "2026-10-28",
+      "time": "17:45",
+      "category": "transport",
+      "paymentMethod": "Cash",
+      "note": "মিরপুর ১০ থেকে ফার্মগেট",
+      "createdAt": "2026-10-28T10:36:43.324Z"
+    },
+    {
+      "id": "exp-5",
+      "title": "সন্ধ্যায় চা ও বন্ধুদের সাথে আড্ডা",
+      "amount": 60,
+      "date": "2026-10-27",
+      "time": "19:30",
+      "category": "tea_snacks",
+      "paymentMethod": "bKash",
+      "note": "রং চা ও পরোটা",
+      "createdAt": "2026-10-27T10:36:43.324Z"
+    },
+    {
+      "id": "exp-6",
+      "title": "বিড়ি ও পানের দোকান",
+      "amount": 40,
+      "date": "2026-10-27",
+      "time": "21:00",
+      "category": "smoking",
+      "paymentMethod": "Cash",
+      "note": "সিগারেট",
+      "createdAt": "2026-10-27T10:36:43.324Z"
+    },
+    {
+      "id": "exp-7",
+      "title": "রাতের ভাত ও তরকারি",
+      "amount": 90,
+      "date": "2026-10-27",
+      "time": "22:15",
+      "category": "meals",
+      "paymentMethod": "Cash",
+      "note": "রাতের মিল",
+      "createdAt": "2026-10-27T10:36:43.324Z"
+    },
+    {
+      "id": "exp-8",
+      "title": "কাঁচাবাজার সদাই (সবজি ও ডিম)",
+      "amount": 450,
+      "date": "2026-10-26",
+      "time": "10:00",
+      "category": "grocery",
+      "paymentMethod": "Nagad",
+      "note": "কাঁচাবাজার সদাই",
+      "createdAt": "2026-10-26T10:36:43.324Z"
+    },
+    {
+      "id": "exp-9",
+      "title": "মোবাইল রিচার্জ (গ্রামীনফোন)",
+      "amount": 198,
+      "date": "2026-10-25",
+      "time": "16:20",
+      "category": "recharge_net",
+      "paymentMethod": "bKash",
+      "note": "ডাটা প্যাক",
+      "createdAt": "2026-10-25T10:36:43.324Z"
+    }
+  ]
+}

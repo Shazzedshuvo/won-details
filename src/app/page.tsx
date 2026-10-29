@@ -24,14 +24,24 @@ import {
   Fingerprint, 
   Home, 
   ExternalLink,
-  KeyRound
+  KeyRound,
+  Wallet
 } from "lucide-react";
 import { useProfile } from "@/context/ProfileContext";
+import { useExpense } from "@/context/ExpenseContext";
 import { Card } from "@/components/Card";
 import { CopyButton } from "@/components/CopyButton";
 
 export default function DashboardPage() {
   const { data: personalData } = useProfile();
+  const { expenses, incomes, budgetConfig } = useExpense();
+
+  const currentMonth = new Date().toISOString().slice(0, 7);
+  const totalAllExp = expenses.reduce((s, c) => s + c.amount, 0);
+  const totalAllInc = incomes.reduce((s, c) => s + c.amount, 0);
+  const netRemaining = budgetConfig.initialCapital + totalAllInc - totalAllExp;
+  const monthSpent = expenses.filter((e) => e.date.startsWith(currentMonth)).reduce((s, c) => s + c.amount, 0);
+  const todaySpent = expenses.filter((e) => e.date === new Date().toISOString().slice(0, 10)).reduce((s, c) => s + c.amount, 0);
   return (
     <div className="space-y-7 animate-fade-in">
       
@@ -161,6 +171,59 @@ export default function DashboardPage() {
             <CopyButton textToCopy={personalData.bloodGroup} />
           </div>
 
+        </div>
+      </section>
+
+      {/* Daily Expense & Money Tracker Quick Widget */}
+      <section className="glass-panel rounded-2xl p-5 sm:p-6 border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 via-white dark:via-zinc-900 to-blue-500/10 shadow-sm">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-emerald-500/20">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+              <Wallet className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+                দৈনন্দিন খরচ ও বাজেট হিসাব
+                <span className="px-2 py-0.5 rounded text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  Auto হিসাব
+                </span>
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-500">
+                আজকের খরচ, চলতি মাসের হিসাব এবং অবশিষ্ট মূল ব্যালেন্স
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/expenses"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 hover:opacity-90 transition-all shadow-sm self-start sm:self-auto"
+          >
+            <span>সম্পূর্ণ হিসাব ও পরিকল্পনা খুলুন</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-4">
+          <div className="p-3.5 rounded-xl bg-white/80 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700">
+            <span className="text-xs text-zinc-500 block font-bold uppercase">হাতে মোট অবশিষ্ট টাকা</span>
+            <span className="text-2xl font-black text-emerald-600 dark:text-emerald-400">
+              ৳{netRemaining.toLocaleString("bn-BD")}
+            </span>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-white/80 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700">
+            <span className="text-xs text-zinc-500 block font-bold uppercase">আজকের খরচ (Today)</span>
+            <span className="text-2xl font-black text-rose-600 dark:text-rose-400">
+              ৳{todaySpent.toLocaleString("bn-BD")}
+            </span>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-white/80 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700">
+            <span className="text-xs text-zinc-500 block font-bold uppercase">চলতি মাসের খরচ ({currentMonth})</span>
+            <span className="text-2xl font-black text-zinc-900 dark:text-zinc-100">
+              ৳{monthSpent.toLocaleString("bn-BD")}
+            </span>
+          </div>
         </div>
       </section>
 

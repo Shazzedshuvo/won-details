@@ -16,7 +16,8 @@ import {
   ChevronRight,
   Code2,
   FolderOpen,
-  Settings2
+  Settings2,
+  Wallet
 } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useProfile } from "@/context/ProfileContext";
@@ -39,6 +40,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile }) => {
       href: "/",
       icon: LayoutDashboard,
       badge: "Overview"
+    },
+    {
+      name: "দৈনন্দিন খরচ ও বাজেট",
+      href: "/expenses",
+      icon: Wallet,
+      badge: "Auto হিসাব"
     },
     {
       name: "ATS CV Builder",

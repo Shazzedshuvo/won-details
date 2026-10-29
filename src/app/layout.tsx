@@ -5,6 +5,7 @@ import { ShowcaseProvider } from "@/context/ShowcaseContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { VaultProvider } from "@/context/VaultContext";
 import { ProfileProvider } from "@/context/ProfileContext";
+import { ExpenseProvider } from "@/context/ExpenseContext";
 import { DashboardLayout } from "@/components/DashboardLayout";
 
 export const metadata: Metadata = {
@@ -33,13 +34,15 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <ProfileProvider>
-              <ShowcaseProvider>
-                <VaultProvider>
-                  <DashboardLayout>
-                    {children}
-                  </DashboardLayout>
-                </VaultProvider>
-              </ShowcaseProvider>
+              <ExpenseProvider>
+                <ShowcaseProvider>
+                  <VaultProvider>
+                    <DashboardLayout>
+                      {children}
+                    </DashboardLayout>
+                  </VaultProvider>
+                </ShowcaseProvider>
+              </ExpenseProvider>
             </ProfileProvider>
           </AuthProvider>
         </ThemeProvider>

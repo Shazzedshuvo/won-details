@@ -43,7 +43,11 @@ export async function GET() {
     vaultRecords: null,
     showcaseItems: null,
     cvData: null,
-    authCredentials: null
+    authCredentials: null,
+    expenses: null,
+    incomes: null,
+    monthlyPlans: null,
+    budgetConfig: null
   });
 }
 
